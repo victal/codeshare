@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  textarea#coding-area(cols='50', rows ='30')
+  div
+    h2 stdout
+    textarea#result-area(cols='50', rows ='10', readOnly=true)
+    br
+    button(name='execute')#exec-button Executar
+  script(type='text/javascript')
+    $(document).ready(function (){
+      $('#exec-button').click(function(event){
+        //$.post(
+        $.post(
+          '/sandbox/#{id}/run',
+          { script: $('#coding-area').value, type: 'python3'},
+          function(data){
+             $('#result-area').val(data); },
+             'text'
+        );
+      });
+    });

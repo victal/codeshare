@@ -1,0 +1,9 @@
+doctype 5
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    -each script in scripts
+      script(type='text/javascript', src= script)
+  body
+    block content

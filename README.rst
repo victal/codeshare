@@ -1,29 +1,29 @@
-Example_express
----------------
+Codeshare
+---------
 
 
 Description
 ===========
 
-This is a small application using express and it's
-a work in progress.
+Projeto de IDE colaborativa para a matéria de Programação Distribuída
 
-How to Run
-==========
+Instalação e execução
+=====================
 
-* Install node.js (http://nodejs.org)
-* Run 'npm install' to install dependencies
-* npm start (to start with nodemon) or node app;
-* Open http://localhost:3000
+* Instalar node.js (http://nodejs.org)
+* Instalar o app nodemon globalmente ('npm install -g nodemon')
+* Executar 'npm install' na pasta deste app para instalação de dependências
+* Executar o app com 'npm start' (para utilizar o nodemon) ou com 'node app';
+* O app estará rodando em  http://localhost:3000
 
 Tech Stack
 ==========
 
-Currently using:
+Atualmente o Codeshare utiliza:
 
 Node.js
-
 Express.js 3.0
 
 nodemon
 
+jQuery (Client-side)

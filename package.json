@@ -3,10 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-  "start": "nodemon -w routes  -w . -w static -w views app.js"
+    "start": "nodemon -w routes  -w . -w static -w views -w utils app.js"
   },
   "dependencies": {
     "express": "3.x",
-    "jade": "*"
+    "jade": "*",
+    "async": "*"
   }
 }

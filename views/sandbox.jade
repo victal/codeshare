@@ -1,8 +1,14 @@
 extends layout
 
 block content
+  select#filetype
+    each key, val in types
+      option(value=val) #{key}
+  br
   textarea#coding-area(cols='50', rows ='30')
   div
+    h2 stdin
+    textarea#input-area(cols='50', rows ='10')
     h2 stdout
     textarea#result-area(cols='50', rows ='10', readOnly=true)
     br
@@ -13,7 +19,12 @@ block content
         //$.post(
         $.post(
           '/sandbox/#{id}/run',
-          { script: $('#coding-area').value, type: 'python3'},
+          {
+            script: $('#coding-area').val(),
+            stdin: $('#input-area').val(),
+            type: $('#filetype').val(),
+            id: '#{id}'
+          },
           function(data){
              $('#result-area').val(data); },
              'text'

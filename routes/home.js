@@ -17,7 +17,6 @@ var file_types = {
   'cpp': 'C++',
   'c': 'C',
   'js':'Javascript'
-
 };
 
 exports.home_view = function(req, res){
@@ -103,8 +102,14 @@ exports.run = function(req,res){
     function(err,results){
       if(err){console.dir(err);console.log(error.stack);}
       else{
-        exec('python utils/runner.py '+filename+' '+req.param('type'), function(error,stdout,stderr){
-          content = stdout;
+        var exec_func = runners.get(req.param('type'));
+        exec_func(filename, function(error,stdout,stderr){
+          if(stderr){
+            content = stderr;
+          }
+          else{
+            content = stdout;
+          }
           res.send(content);
 //          fs.unlink(filename,function(err){
 //          fs.unlink(filename+'.stdin');

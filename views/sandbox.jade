@@ -1,18 +1,23 @@
 extends layout
 
 block content
-  select#filetype
-    each key, val in types
-      option(value=val) #{key}
-  br
-  textarea#coding-area(cols='50', rows ='30')
-  div
-    h2 stdin
-    textarea#input-area(cols='50', rows ='10')
-    h2 stdout
-    textarea#result-area(cols='50', rows ='10', readOnly=true)
-    br
+  div.header
+    span CodeShare
+    button(name='save')#save Save Code
+    select#filetype
+      each key, val in types
+        option(value=val) #{key}
     button(name='execute')#exec-button Executar
+  div.content
+    div#left
+      textarea(cols='50', rows ='30')
+    div#center
+      textarea#coding-area(cols='50', rows ='30')
+    div#right
+      h2 stdin
+      textarea#input-area(cols='50', rows ='10')
+      h2 stdout
+      textarea#result-area(cols='50', rows ='10', readOnly=true)
   script(type='text/javascript')
     $(document).ready(function (){
       $('#exec-button').click(function(event){

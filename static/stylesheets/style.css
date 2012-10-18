@@ -1,8 +1,75 @@
+html {
+  font-size: 100%;
+
+}
+
 body {
-  padding: 50px;
+  height: 100%;
+  width: 1170px;
+  /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.header{
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  top: 0;
+  right:0;
+  left:0;
+
+  margin-bottom: 0;
+  background-color: brown;
+  /*background-image: -moz-linear-gradient(top, #222, #111);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#222), to(#111));
+  background-image: -webkit-linear-gradient(top, #222, #111);
+  background-image: -o-linear-gradient(top, #222, #111);
+  background-image: linear-gradient(to bottom, #222, #111);
+  background-repeat: repeat-x;*/
+}
+
+.content {
+  padding-top: 50px;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+#right {
+  width: 20%;
+  /*float: right;*/
+  margin-right: 0;
+  float:left;
+}
+
+#center {
+  width: 60%;
+  /*float: left;*/
+  float:left;
+}
+
+#left {
+  width: 20%;
+  /*float: left;*/
+  margin-left: 0;
+  float:left;
+}
+
+button{
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+textarea{
+  width: 100%;
+  height: 100%;
 }
 
 a {
   color: #00B7FF;
+}
+
+
+.nav-header {
+  margin-left: 0;
+  list-style: none;
 }

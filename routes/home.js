@@ -1,30 +1,31 @@
-var fs = require('fs');
-var async = require('async');
-var path = require('path');
-var runners = require('../utils/runners');
+  var fs = require('fs');
+  var async = require('async');
+  var path = require('path');
+  var runners = require('../utils/runners');
+  var ObjectID = require('mongodb').ObjectID;
 
-var file_suffixes = {
-  'python': '.py',
-  'python3': '.py',
-  'cpp': '.cpp',
-  'c': '.c',
-  'js': '.js'
-};
+  var file_suffixes = {
+    'python': '.py',
+    'python3': '.py',
+    'cpp': '.cpp',
+    'c': '.c',
+    'js': '.js'
+  };
 
-var file_types = {
-  'python': 'Python 2',
-  'python3': 'Python 3',
-  'cpp': 'C++',
-  'c': 'C',
-  'js':'Javascript'
-};
+  var file_types = {
+    'python': 'Python 2',
+    'python3': 'Python 3',
+    'cpp': 'C++',
+    'c': 'C',
+    'js':'Javascript'
+  };
 
-exports.home_view = function(req, res){
-  res.render('index', { title: 'It\'s Alive!', scripts: []});
-};
+  exports.home_view = function(req, res){
+    res.render('index', { title: 'It\'s Alive!', scripts: []});
+  };
 
-exports.sandbox = function(req,res){
-  res.render('sandbox', {
+  exports.sandbox = function(req,res){
+    res.render('sandbox', {
     title: 'Sandbox',
     id: req.params.id,
     types: file_types,
@@ -33,7 +34,8 @@ exports.sandbox = function(req,res){
 };
 
 exports.new_sandbox = function(req,res){
-  res.redirect('/sandbox/1');
+  var objid = new ObjectID();
+  res.redirect('/sandbox/'+objid);
 };
 
 exports.run = function(req,res){
@@ -63,14 +65,15 @@ exports.run = function(req,res){
                 callback(err,null);
               }
               else {
-              fs.close(fd);
-              callback(null,null);}
+                fs.close(fd);
+                callback(null,null);}
             });
           });
         }
       });
     },
     function(callback){
+      console.log(req.param('stdin'));
       fs.exists(filename+'.stdin',function(exists){
         if(exists){
           fs.writeFile(filename+'.stdin',req.param('stdin'),function(err){

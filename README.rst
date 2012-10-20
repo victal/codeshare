@@ -28,12 +28,17 @@ nodemon (https://github.com/remy/nodemon)
 async (https://github.com/caolan/async)
 
 jQuery (Client-side) (http://jquery.com)
+Socket.IO (http://socket.io)
 
 
 Outras Dependências (não instaladas pelo npm)
 =============================================
 
 GCC - compilação e execução de código C
+
 G++ - compilação e execução de código C++
+
 Python 2.x - execução de código Python 2
+
 Python 3.x - execução de código Python 3
+

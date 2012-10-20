@@ -26,6 +26,8 @@ body {
   background-image: -o-linear-gradient(top, #222, #111);
   background-image: linear-gradient(to bottom, #222, #111);
   background-repeat: repeat-x;*/
+
+  z-index: 100;
 }
 
 .content {

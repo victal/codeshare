@@ -10,4 +10,21 @@ script(type='text/javascript')
         $('#message').attr('placeholder','Choose a name above so you can chat');
       }
     });
+    var chat = io.connect('#{chat_url}');
+    chat.emit('connect',{id: '#{id}'});
+    chat.on('count',function(data){});
+    chat.on('message',function(data){
+      var text = $('#chat').val();
+      if(text){
+        text+='\n';
+      }
+      $('#chat').val(text+data.message);
+    });
+    $('#send').click(function(){
+      chat.emit('message',{
+        id: '#{id}',
+        user: $('#name').val(),
+        content: $('#message').val()
+      });
+    });
   });

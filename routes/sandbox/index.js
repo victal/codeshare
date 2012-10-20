@@ -1,9 +1,9 @@
   var fs = require('fs');
   var async = require('async');
   var path = require('path');
-  var runners = require('../utils/runners');
+  var runners = require('./utils/runners');
   var ObjectID = require('mongodb').ObjectID;
-  var io = require('../app').io;
+  //var chat = require('./io_chat');
 
   var file_suffixes = {
     'python': '.py',
@@ -27,10 +27,11 @@
 
   exports.sandbox = function(req,res){
     res.render('sandbox', {
+    chat_url: req.protocol + '://' + req.headers.host + '/chat',
     title: 'Sandbox',
     id: req.params.id,
     types: file_types,
-    scripts: ['/js/jquery.js']
+    scripts: ['/js/jquery.js', '/socket.io/socket.io.js']
   });
 };
 

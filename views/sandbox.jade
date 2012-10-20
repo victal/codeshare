@@ -11,8 +11,9 @@ block content
   div.content
     div#left
       input#name(type='text', maxlength='20', placeholder='Put your name here')
-      textarea#chat(cols='50', rows ='30', readonly='yes')
+      textarea#chat(cols='50', rows ='30')
       textarea#message(cols='30', rows='2', readonly='yes', placeholder='Choose a name above so you can chat')
+      button#send Send
     div.center
       textarea#coding-area(cols='50', rows ='30')
     div#right
@@ -38,4 +39,4 @@ block content
         );
       });
     });
-  include includes/sandbox/chat.js.jade  
+  include includes/sandbox/chat.js.jade

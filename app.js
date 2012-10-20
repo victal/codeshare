@@ -6,16 +6,20 @@
 var express = require('express'),
     path = require('path'),
     app = exports.app = express(),
-    router = require('./routes'),
     server = require('http').createServer(app),
-    io = exports.io = require('socket.io').listen(server);
+    io = exports.io = require('socket.io').listen(server),
+    sharejs = require('share').server,
+    share_options = {db: {type: 'none'}},
+    router = require('./routes');
 
-var chat = require('./routes/sandbox/io_chat');
+//We have to require it here for now so it can get the app.js exports correctly
+//var chat = require('./routes/sandbox/io_chat');
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
+  app.set('view options', { pretty: true });
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -29,6 +33,7 @@ app.configure('development', function(){
 });
 
 
+sharejs.attach(app, share_options);
 
 //app.listen(app.get('port'), function(){
 server.listen(app.get('port'), function(){

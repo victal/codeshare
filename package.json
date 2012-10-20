@@ -10,6 +10,7 @@
     "jade": "*",
     "async": "*",
     "mongodb": "*",
-    "socket.io":"*"
+    "socket.io":"*",
+    "share": "*"
   }
 }

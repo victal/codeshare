@@ -3,7 +3,7 @@
   var path = require('path');
   var runners = require('./utils/runners');
   var ObjectID = require('mongodb').ObjectID;
-  //var chat = require('./io_chat');
+  var chat = require('./io_chat');
 
   var file_suffixes = {
     'python': '.py',
@@ -31,7 +31,7 @@
     title: 'Sandbox',
     id: req.params.id,
     types: file_types,
-    scripts: ['/js/jquery.js', '/socket.io/socket.io.js']
+    scripts: ['/js/jquery.js', '/socket.io/socket.io.js', '/channel/bcsocket.js', '/share/share.js', '/share/textarea.js']
   });
 };
 

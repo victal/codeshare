@@ -15,7 +15,7 @@ block content
       textarea#message(cols='30', rows='2', readonly='yes', placeholder='Choose a name above so you can chat')
       button#send Send
     div.center
-      textarea#coding-area(cols='50', rows ='30')
+      textarea#coding-area(cols='50', rows ='30', disabled='true') Loading. (Or its probably broken and you should come back later.)
     div#right
       h2 stdin
       textarea#input-area(cols='50', rows ='10')
@@ -40,3 +40,4 @@ block content
       });
     });
   include includes/sandbox/chat.js.jade
+  include includes/sandbox/share.js.jade

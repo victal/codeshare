@@ -3,11 +3,13 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , path = require('path');
+var express = require('express'),
+    path = require('path'),
+    app = express(),
+    router = require('./routes'),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server);
 
-var app = express();
-var router = require('./routes')
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -25,7 +27,10 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+exports.app = app;
+exports.io = io;
 
-app.listen(app.get('port'), function(){
+//app.listen(app.get('port'), function(){
+server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });

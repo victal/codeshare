@@ -3,6 +3,7 @@
   var path = require('path');
   var runners = require('../utils/runners');
   var ObjectID = require('mongodb').ObjectID;
+  var io = require('../app').io;
 
   var file_suffixes = {
     'python': '.py',

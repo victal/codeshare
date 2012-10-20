@@ -3,15 +3,17 @@ extends layout
 block content
   div.header
     span CodeShare
-    button(name='save')#save Save Code
     select#filetype
       each key, val in types
         option(value=val) #{key}
     button(name='execute')#exec-button Executar
+    button(name='save')#save Save Code
   div.content
     div#left
-      textarea(cols='50', rows ='30')
-    div#center
+      input#name(type='text', maxlength='20', placeholder='Put your name here')
+      textarea#chat(cols='50', rows ='30', readonly='yes')
+      textarea#message(cols='30', rows='2', readonly='yes', placeholder='Choose a name above so you can chat')
+    div.center
       textarea#coding-area(cols='50', rows ='30')
     div#right
       h2 stdin
@@ -21,7 +23,6 @@ block content
   script(type='text/javascript')
     $(document).ready(function (){
       $('#exec-button').click(function(event){
-        //$.post(
         $.post(
           '/sandbox/#{id}/run',
           {
@@ -31,8 +32,10 @@ block content
             id: '#{id}'
           },
           function(data){
-             $('#result-area').val(data); },
-             'text'
+             $('#result-area').val(data);
+          },
+          'text'
         );
       });
     });
+  include includes/sandbox/chat.js.jade  

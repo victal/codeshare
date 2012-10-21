@@ -12,7 +12,28 @@
   color: #CCCCCC;
 }
 
-body{
+.button {
+  color: #CCCCCC;
+  text-decoration: none;
+  font-size: 18pt;
+  font-weight: bold;
+  padding: 8px 20px;
+  border-radius: 10px;
+  background-color: #992020;
+  background-image: linear-gradient(to bottom, #992020, #200000);
+  background-image: -ms-linear-gradient(top, #992020, #200000);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#992020), to(#200000));
+  background-image: -webkit-linear-gradient(top, #992020, #200000);
+  background-image: -o-linear-gradient(top, #992020, #200000);
+  background-image: -moz-linear-gradient(top, #992020, #200000);
+  background-repeat: repeat-x;
+}
+
+.get-started {
+  position: relative;
+  text-align: center;
+}
+body {
   /* background by Atle Mo and Lea Verou */
   /* http://lea.verou.me/css3patterns/#carbon-fibre */
   background:

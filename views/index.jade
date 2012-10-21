@@ -4,13 +4,14 @@ block extra_css
   link(rel='stylesheet', href='/stylesheets/index.css')
 
 
-block extra_header_content
-  a(href="/sandbox") New Pad
-
 block content
   div.container
     div.content
       div#left-index
         h1#index-title Code. Test. Share. Repeat.
         p CodeShare is an online collaborative IDE, for quick development and sharing of code snippets.
+        div.get-started
+          a.button(href="/sandbox") Get Started!
+          p Click the button above to go to a new editor.
+
 

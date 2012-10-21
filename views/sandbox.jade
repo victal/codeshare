@@ -1,43 +1,48 @@
 extends layout
 
+block extra_header_content
+  select#filetype
+    each key, val in types
+      option(value=val) #{key}
+
 block content
-  div.header
-    span CodeShare
-    select#filetype
-      each key, val in types
-        option(value=val) #{key}
-    button(name='execute')#exec-button Executar
-    button(name='save')#save Save Code
-  div.content
-    div#left
-      input#name(type='text', maxlength='20', placeholder='Put your name here')
-      textarea#chat(cols='50', rows ='30')
-      textarea#message(cols='30', rows='2', readonly='yes', placeholder='Choose a name above so you can chat')
-      button#send Send
-    div.center
-      textarea#coding-area(cols='50', rows ='30', disabled='true') Loading. (Or its probably broken and you should come back later.)
-    div#right
-      h2 stdin
-      textarea#input-area(cols='50', rows ='10')
-      h2 stdout
-      textarea#result-area(cols='50', rows ='10', readOnly=true)
-  script(type='text/javascript')
-    $(document).ready(function (){
-      $('#exec-button').click(function(event){
-        $.post(
-          '/sandbox/#{id}/run',
-          {
-            script: $('#coding-area').val(),
-            stdin: $('#input-area').val(),
-            type: $('#filetype').val(),
-            id: '#{id}'
-          },
-          function(data){
-             $('#result-area').val(data);
-          },
-          'text'
-        );
+  div.container
+    div.content
+      div.left
+        div.title Talk to your codefriends here!
+        input#name(type='text', maxlength='20', placeholder='Put your name here')
+        textarea#chat(cols='50', rows ='30', readonly='readonly')
+        textarea#message(cols='30', rows='2', readonly='yes', placeholder='Choose a name above so you can chat')
+        button#send Send
+      div.center
+        div.title Type your code here!
+        textarea#coding-area(cols='50', rows ='30')
+        div.options
+          button(name='execute')#exec-button Executar
+          button(name='save')#save Save Code
+      div.right
+        div.title Test your code here!
+        h2 stdin
+        textarea#input-area(cols='50', rows ='10')
+        h2 stdout
+        textarea#result-area(cols='50', rows ='10', readOnly=true)
+    script(type='text/javascript')
+      $(document).ready(function (){
+        $('#exec-button').click(function(event){
+          $.post(
+            '/sandbox/#{id}/run',
+            {
+              script: $('#coding-area').val(),
+              stdin: $('#input-area').val(),
+              type: $('#filetype').val(),
+              id: '#{id}'
+            },
+            function(data){
+               $('#result-area').val(data);
+            },
+            'text'
+          );
+        });
       });
-    });
   include includes/sandbox/chat.js.jade
   include includes/sandbox/share.js.jade

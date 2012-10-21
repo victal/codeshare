@@ -3,7 +3,11 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    block extra_css
     -each script in scripts
       script(type='text/javascript', src= script)
   body
-    block content
+  div.header
+    span CodeShare
+    block extra_header_content
+  block content

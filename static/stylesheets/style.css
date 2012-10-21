@@ -1,23 +1,39 @@
+
+/* General layout for all pages */
+
 html {
   font-size: 100%;
-
 }
 
 body {
   height: 100%;
   width: 1170px;
-  /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-.header{
+
+.container
+{
+  box-shadow: 0 0 8px #CCC;
+}
+
+.content {
+  padding-top: 50px;
+  position: absolute;
+  width: 80%;
+  margin-left: 10%;
+  height: auto;
+}
+
+
+.header {
   position: fixed;
   width: 100%;
   height: 50px;
   top: 0;
   right:0;
   left:0;
-
+  font-size: 30px;
   margin-bottom: 0;
   background-color: brown;
   /*background-image: -moz-linear-gradient(top, #222, #111);
@@ -26,35 +42,49 @@ body {
   background-image: -o-linear-gradient(top, #222, #111);
   background-image: linear-gradient(to bottom, #222, #111);
   background-repeat: repeat-x;*/
-
   z-index: 100;
 }
 
-.content {
-  padding-top: 50px;
-  /*padding-right: 30px;
-  padding-left: 30px;*/
-}
+/* CSS for sandbox.jade */
 
-#right {
-  width: 22%;
-  float: right;
-  position:relative;
-  margin-right: 0;
+.right {
+  float: left;
+  width: 19%;
+  position: relative;
+  margin-left: 15px;
   text-align:right;
 }
 
 .center {
-  width: 60%;
   position:relative;
+  margin-left: 15px;
   float: left;
+  width: 50%;
 }
 
-#left {
-  width: 18%;
-  margin-left: 0;
-  position:relative;
+.left {
   float: left;
+  width: 22%;
+  margin-left: 10px;
+  position:relative;
+}
+
+
+.title
+{
+  position: relative;
+  height: 50px;
+  font-size: 20px;
+  text-align: center;
+}
+
+#chat
+{
+  height: 336px;
+}
+
+#send {
+  width: 100%;
 }
 
 button{
@@ -92,3 +122,4 @@ a {
   margin-left: 0;
   list-style: none;
 }
+

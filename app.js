@@ -1,6 +1,6 @@
-
 /**
- * Module dependencies.
+ * External module dependencies.
+ *
  */
 
 var express = require('express'),
@@ -9,8 +9,13 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = exports.io = require('socket.io').listen(server),
     sharejs = require('share').server,
-    share_options = {db: {type: 'none'}},
-    router = require('./routes');
+    share_options = {db: {type: 'none'}};
+
+/*
+ * Internal dependencies
+ */
+
+var router = require('./routes');
 
 //We have to require it here for now so it can get the app.js exports correctly
 //var chat = require('./routes/sandbox/io_chat');

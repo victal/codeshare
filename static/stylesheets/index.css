@@ -12,6 +12,18 @@
   color: #CCCCCC;
 }
 
+#right-index {
+  float: right;
+  width: 45%;
+  color: #CCCCCC;
+}
+
+#presentation{
+  width: 100%;
+  height: 350px;
+  background-color: white;
+}
+
 .button {
   color: #CCCCCC;
   text-decoration: none;

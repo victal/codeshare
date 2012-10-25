@@ -19,30 +19,44 @@ block content
         textarea#coding-area(cols='50', rows ='30')
         div.options
           button(name='execute')#exec-button Executar
-          button(name='save')#save Save Code
+          button(name='save')#save-button Save Code
       div.right
         div.title Test your code here!
         h2 stdin
         textarea#input-area(cols='50', rows ='10')
         h2 stdout
         textarea#result-area(cols='50', rows ='10', readOnly=true)
-    script(type='text/javascript')
-      $(document).ready(function (){
-        $('#exec-button').click(function(event){
-          $.post(
-            '/sandbox/#{id}/run',
-            {
-              script: $('#coding-area').val(),
-              stdin: $('#input-area').val(),
-              type: $('#filetype').val(),
-              id: '#{id}'
-            },
-            function(data){
-               $('#result-area').val(data);
-            },
-            'text'
-          );
-        });
+  script(type='text/javascript')
+    $(document).ready(function (){
+      $('#exec-button').click(function(event){
+        $.post(
+          '/sandbox/#{id}/run',
+          {
+            script: $('#coding-area').val(),
+            stdin: $('#input-area').val(),
+            type: $('#filetype').val(),
+            id: '#{id}'
+          },
+          function(data){
+             $('#result-area').val(data);
+          },
+          'text'
+        );
       });
+      $('#save-button').click(function(event){
+        $.post(
+          '/sandbox/#{id}/save',
+          {
+            text: $('#coding-area').val(),
+            type: $('#filetype').val(),
+            id: '#{id}'
+          },
+          function(data){
+             $('#result-area').val(data);
+          },
+          'text'
+        );
+      });
+    });
   include includes/sandbox/chat.js.jade
   include includes/sandbox/share.js.jade

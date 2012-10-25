@@ -1,34 +1,115 @@
-  var fs = require('fs');
-  var async = require('async');
-  var path = require('path');
-  var runners = require('./utils/runners');
-  var ObjectID = require('mongodb').ObjectID;
-  var chat = require('./io_chat');
+var fs = require('fs');
+var async = require('async');
+var path = require('path');
+var runners = require('./utils/runners');
+var ObjectID = require('mongodb').ObjectID;
+var chat = require('./io_chat');
+var mongo = require('mongodb'),
+    Server = mongo.Server,
+    Db = mongo.Db;
 
-  var file_suffixes = {
-    'python': '.py',
-    'python3': '.py',
-    'cpp': '.cpp',
-    'c': '.c',
-    'js': '.js'
-  };
+var host = process.env.MONGO_NODE_DRIVER_HOST != null ? process.env.MONGO_NODE_DRIVER_HOST : 'localhost';
+var port = process.env.MONGO_NODE_DRIVER_PORT != null ? process.env.MONGO_NODE_DRIVER_PORT : 27017;
+console.log(host+':'+port);
+var server = new Server(host, port, {safe:true, poolSize:10});
+var db = new Db('codeshare', server, {native_parser:true});
+db.open(function(err,db){
+  if(err){
+    console.log(err);
+  }
+});
 
-  var file_types = {
-    'python': 'Python 2',
-    'python3': 'Python 3',
-    'cpp': 'C++',
-    'c': 'C',
-    'js':'Javascript'
-  };
+function getfromdb(id){
+  db.collection('codepads', {safe:true}, function(err,collection){
+    if(err){
+      console.log(err);
+    }else{
+      collection.findOne({_id:new ObjectID(id)},function(err,item){
+        if(err){
+          console.log(err);
+        }else{
+          return item;
+        }
+      });
+    }
+  });
+  return null;
+}
 
-  exports.home_view = function(req, res){
-    res.render('index', { title: 'It\'s Alive!', scripts: []});
-  };
+var file_suffixes = {
+  'python': '.py',
+  'python3': '.py',
+  'cpp': '.cpp',
+  'c': '.c',
+  'js': '.js'
+};
 
-  exports.sandbox = function(req,res){
-    res.render('sandbox', {
+var file_types = {
+  'python': 'Python 2',
+  'python3': 'Python 3',
+  'cpp': 'C++',
+  'c': 'C',
+  'js':'Javascript'
+};
+
+exports.home_view = function(req, res){
+  res.render('index', { title: 'Codeshare', scripts: []});
+};
+
+exports.save = function(req,res){
+  var item = getfromdb(req.params.id);
+  if(item === null){
+    var new_item = {
+      type: req.params.type,
+      text: req.params.text,
+      _id: new ObjectID(req.params.id)
+    };
+    db.collection('codepads', function(err,collection){
+      if(err){
+        console.log(err);
+      }else{
+        collection.insert(new_item,{safe:true},function(err,result){
+          if(err){
+            console.log(err);
+          }else{
+            var date = new Date();
+            res.send("Saved at "+date.getHours()+":"+date.getMinutes());
+          }
+        });
+      }
+    });
+  }else{
+    var data = {text: req.params.text, type: req.params.type};
+    db.collection('codepads', function(err,collection){
+      if(err){
+        console.log(err);
+      }else{
+        collection.update({_id:new ObjectID(req.params.id)},data, {safe:true},function(err,result){
+          if(err){
+            console.log(err);
+          }else{
+            var date = new Date();
+            res.send("Saved at "+date.getHours()+":"+date.getMinutes());
+          }
+        });
+      }
+    });
+  }
+};
+
+exports.sandbox = function(req,res){
+  var text = '';
+  var type = '';
+  var item = getfromdb(req.params.id);
+  if(item !== null){
+    text = item.text;
+    type = item.type;
+  }
+  res.render('sandbox', {
     chat_url: req.protocol + '://' + req.headers.host + '/chat',
     title: 'Sandbox',
+    text: text,
+    type: type,
     id: req.params.id,
     types: file_types,
     scripts: ['/js/jquery.js', '/socket.io/socket.io.js', '/channel/bcsocket.js', '/share/share.js', '/share/textarea.js']

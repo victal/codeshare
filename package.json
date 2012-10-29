@@ -1,6 +1,6 @@
 {
   "name": "application-name",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "nodemon -w routes  -w routes/sandbox -w . -w static -w views -w utils app.js"
@@ -10,7 +10,7 @@
     "jade": "*",
     "async": "*",
     "mongodb": "*",
-    "socket.io":"*",
+    "socket.io": "*",
     "share": "*"
   }
 }

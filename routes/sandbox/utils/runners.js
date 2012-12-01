@@ -44,11 +44,16 @@ function run_cpp(filename,callback){
   });
 }
 
+function run_js(filename,callback){
+  exec('/usr/bin/env js '+filename+' < '+filename+'.stdin',callback);
+}
+
 var file_runners = {
   'python': run_python2,
   'python3': run_python3,
   'c': run_c,
-  'cpp': run_cpp
+  'cpp': run_cpp,
+  'js': run_js
 };
 
 exports.get = function(filetype){

@@ -112,7 +112,12 @@ exports.sandbox = function(req,res){
     type: type,
     id: req.params.id,
     types: file_types,
-    scripts: ['/js/jquery.js', '/socket.io/socket.io.js', '/channel/bcsocket.js', '/share/share.js', '/share/textarea.js']
+    scripts: ['/js/jquery.js',
+              '/socket.io/socket.io.js',
+              '/channel/bcsocket.js',
+              '/js/ace/ace.js',
+              '/share/share.js',
+              '/share/ace.js']
   });
 };
 

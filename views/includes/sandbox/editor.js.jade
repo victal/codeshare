@@ -1,0 +1,63 @@
+script(type='text/javascript')
+  $(function(){
+    // Create Editor
+    var coding_area = document.getElementById('coding-area');
+    var editor = ace.edit('coding-area');
+
+    //editor.setTheme("ace/theme/tomorrow");
+    editor.session.setMode("ace/mode/python");
+
+    //Share Editor
+    sharejs.open('#{id}', 'text', function(error, doc){
+      if (error) {
+        console.log(error);
+      } else {
+        doc.attach_ace(editor);
+      }
+    });
+    // Run code
+    $('#exec-button').click(function(event){
+      $.post(
+        '/sandbox/#{id}/run',
+        {
+          script: editor.getValue(),
+          stdin: $('#input-area').val(),
+          type: $('#filetype').val(),
+          id: '#{id}'
+        },
+        function(data){
+           $('#result-area').val(data);
+        },
+        'text'
+      );
+    });
+    //Save Code
+    $('#save-button').click(function(event){
+      $.post(
+        '/sandbox/#{id}/save',
+        {
+          text: editor.getValue(),
+          type: $('#filetype').val(),
+          id: '#{id}'
+        },
+        function(data){
+           $('#result-area').val(data);
+        },
+        'text'
+      );
+    });
+    //Change Syntax highlight
+    $('#filetype').change(function(event){
+      var type = $('#filetype').val();
+      if(type.indexOf("python")!= -1){
+        alert(type);
+        editor.session.setMode("ace/mode/python");
+      }
+      else if(type === "c" || type === "cpp"){
+        editor.session.setMode("ace/mode/c_cpp");
+      }
+      else if(type === "js"){
+        editor.session.setMode("ace/mode/javascript");
+      }
+    });
+  });

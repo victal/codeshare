@@ -26,9 +26,17 @@ script(type='text/javascript')
           id: '#{id}'
         },
         function(data){
-           $('#result-area').val(data);
+           var source = data.source;
+           var content = data.content;
+           if(source === "stderr"){
+             $('#result-area').css('color','#F00');
+           }
+           else{
+             $('#result-area').css('color','#000');
+           }
+           $('#result-area').val(content);
         },
-        'text'
+        'json'
       );
     });
     //Save Code
@@ -41,7 +49,7 @@ script(type='text/javascript')
           id: '#{id}'
         },
         function(data){
-           $('#result-area').val(data);
+           $('#last-save').text(data);
         },
         'text'
       );
@@ -50,7 +58,6 @@ script(type='text/javascript')
     $('#filetype').change(function(event){
       var type = $('#filetype').val();
       if(type.indexOf("python")!= -1){
-        alert(type);
         editor.session.setMode("ace/mode/python");
       }
       else if(type === "c" || type === "cpp"){

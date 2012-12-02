@@ -1,5 +1,12 @@
 extends layout
 
+block extra_css
+  link(rel='stylesheet', href='/stylesheets/sandbox.css')
+
+block extra_header_content
+  span#last-save
+
+
 block content
   div.container
     div.content
@@ -12,18 +19,19 @@ block content
       div.center
         div.title Type your code here!
         div.options
-          button(name='execute')#exec-button Executar
-          button(name='save')#save-button Save Code
+          span Language:
           select#filetype
             each key, val in types
               option(value=val) #{key}
+          button(name='execute')#exec-button Run Code
+          button(name='save')#save-button Save Code
         div#coding-area
       div.right
         div.title Test your code here!
         h2 stdin
         textarea#input-area(cols='50', rows ='10')
-        h2 stdout
+        h2 stdout/
+          span(style='color: #D00;') stderr
         textarea#result-area(cols='50', rows ='10', readOnly=true)
   include includes/sandbox/chat.js.jade
   include includes/sandbox/editor.js.jade
-  //- include includes/sandbox/share.js.jade

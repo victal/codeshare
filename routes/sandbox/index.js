@@ -19,7 +19,7 @@ db.open(function(err,db){
   }
 });
 
-function getfromdb(id){
+function getfromdb(id,callback){
   db.collection('codepads', {safe:true}, function(err,collection){
     if(err){
       console.log(err);
@@ -28,7 +28,7 @@ function getfromdb(id){
         if(err){
           console.log(err);
         }else{
-          return item;
+          callback(item);
         }
       });
     }
@@ -57,67 +57,72 @@ exports.home_view = function(req, res){
 };
 
 exports.save = function(req,res){
-  var item = getfromdb(req.params.id);
-  if(item === null){
-    var new_item = {
-      type: req.params.type,
-      text: req.params.text,
-      _id: new ObjectID(req.params.id)
-    };
-    db.collection('codepads', function(err,collection){
-      if(err){
-        console.log(err);
-      }else{
-        collection.insert(new_item,{safe:true},function(err,result){
-          if(err){
-            console.log(err);
-          }else{
-            var date = new Date();
-            res.send("Saved at "+date.getHours()+":"+date.getMinutes());
-          }
-        });
-      }
-    });
-  }else{
-    var data = {text: req.params.text, type: req.params.type};
-    db.collection('codepads', function(err,collection){
-      if(err){
-        console.log(err);
-      }else{
-        collection.update({_id:new ObjectID(req.params.id)},data, {safe:true},function(err,result){
-          if(err){
-            console.log(err);
-          }else{
-            var date = new Date();
-            res.send("Saved at "+date.getHours()+":"+date.getMinutes());
-          }
-        });
-      }
-    });
-  }
+  getfromdb(req.params.id,function(item){
+    console.log(item);
+    console.log(item === null);
+    if(item === null){
+      var new_item = {
+        type: req.params.type,
+        text: req.params.text,
+        _id: new ObjectID(req.params.id)
+      };
+      db.collection('codepads', function(err,collection){
+        if(err){
+          console.log(err);
+        }else{
+          collection.insert(new_item,{safe:true},function(err,result){
+            if(err){
+              console.log(err);
+            }else{
+              var date = new Date();
+              res.send("Saved at "+date.getHours()+":"+date.getMinutes());
+            }
+          });
+        }
+      });
+    }else{
+      var data = {text: req.params.text, type: req.params.type};
+      db.collection('codepads', function(err,collection){
+        if(err){
+          console.log(err);
+        }else{
+          console.log('update');
+          collection.update({_id:new ObjectID(req.params.id)},data, {safe:true},function(err,result){
+            if(err){
+              console.log(err);
+            }else{
+              var date = new Date();
+              res.send("Saved at "+date.getHours()+":"+date.getMinutes());
+            }
+          });
+        }
+      });
+    }
+  });
 };
 
 exports.sandbox = function(req,res){
   var text = '';
   var type = '';
-  var item = getfromdb(req.params.id);
-  if(item !== null){
-    text = item.text;
-    type = item.type;
-  }
-  res.render('sandbox', {
-    chat_url: req.protocol + '://' + req.headers.host + '/chat',
-    title: 'Sandbox',
-    text: text,
-    type: type,
-    id: req.params.id,
-    types: file_types,
-    scripts: ['/js/jquery.js',
-              '/socket.io/socket.io.js',
-              '/channel/bcsocket.js',
-              '/js/ace/ace.js',
-              '/share/share.js',
-              '/share/ace.js']
+  getfromdb(req.params.id,function(item){
+    if(item !== null){
+      text = item.text;
+      type = item.type;
+    }
+    res.render('sandbox', {
+      chat_url: req.protocol + '://' + req.headers.host + '/chat',
+      title: 'Sandbox',
+      text: text,
+      type: type,
+      id: req.params.id,
+      types: file_types,
+      scripts: ['/js/jquery.js',
+                '/socket.io/socket.io.js',
+                '/channel/bcsocket.js',
+                '/js/ace/ace.js',
+                '/share/share.js',
+                '/share/ace.js']
+    });
   });
 };
 
@@ -195,20 +200,19 @@ exports.run = function(req,res){
       else{
         var exec_func = runners.get(req.param('type'));
         exec_func(filename, function(error,stdout,stderr){
+          var content = "";
+          var source = "stdout";
           if(stderr){
             content = stderr;
+            source = "stderr";
           }
           else{
             content = stdout;
           }
-          res.send(content);
-//          fs.unlink(filename,function(err){
-//          fs.unlink(filename+'.stdin');
-//          });
-//          var difft = Date.now() - time0;
-//          console.log(difft);
-//          res.send(content);
-//          console.log(content);
+          res.writeHead(200, {'Content-Type': 'text/json'});
+          res.end(
+            JSON.stringify({source:source, content:content})
+          );
         });
       }
     }

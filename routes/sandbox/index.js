@@ -34,7 +34,7 @@ function getfromdb(id,callback){
       });
     }
   });
-  return null;
+  callback(null);
 }
 
 var file_suffixes = {
@@ -56,24 +56,17 @@ var file_types = {
 exports.home_view = function(req, res){
   res.render('index', {
     title: 'Codeshare',
-    scripts: ['/vendor/jquery.min.js',
-              '/vendor/jquery.form.js',
-              '/vendor/bootstrap-modal.js',
-              '/js/views/login.js',
-              '/vendor/bootstrap-transition.js',
-              '/js/controllers/loginController.js',
-              '/js/form-validators/loginValidator.js',
-              '/js/form-validators/emailValidator.js']
+    user: req.session.user
+    scripts: []
   });
 };
 
 
 exports.save = function(req,res){
   getfromdb(req.params.id,function(item){
-    console.log(item);
-    console.log(item === null);
     if(item === null){
       var new_item = {
+        user: req.params.user,
         type: req.params.type,
         text: req.params.text,
         _id: new ObjectID(req.params.id)
@@ -122,6 +115,7 @@ exports.sandbox = function(req,res){
       type = item.type;
     }
     res.render('sandbox', {
+      user: req.session.user;
       chat_url: req.protocol + '://' + req.headers.host + '/chat',
       title: 'Sandbox',
       text: text,

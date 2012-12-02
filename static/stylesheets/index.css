@@ -6,6 +6,7 @@
 }
 
 #left-index {
+  margin-top: 3%;
   float: left;
   width: 45%;
   position:relative;
@@ -13,6 +14,7 @@
 }
 
 #right-index {
+  margin-top: 5%;
   float: right;
   width: 45%;
   color: #CCCCCC;
@@ -24,7 +26,7 @@
   background-color: white;
 }
 
-.button {
+a.button{
   color: #CCCCCC;
   text-decoration: none;
   font-size: 18pt;

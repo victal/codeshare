@@ -1,7 +1,8 @@
 
 
 var express = require('express'),
-    sandbox = require('./sandbox');
+    sandbox = require('./sandbox'),
+    users = require('./users');
 
 var app = express();
 app.set('views', __dirname + '/../views');
@@ -24,5 +25,8 @@ app.get('/reset-password',sandbox.reset_password_get);
 app.get('/print',sandbox.print);
 app.get('/reset',sandbox.reset);
 app.get('/',sandbox.home_view);
+
+app.get('/login',users.login_get);
+app.post('/login',users.login_post);
 
 module.exports = app;

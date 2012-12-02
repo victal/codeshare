@@ -6,10 +6,6 @@ html {
 }
 
 body {
-  height: 100%;
-  width: 1170px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  color: #CCC;
 }
 
 
@@ -57,6 +53,10 @@ body {
 }
 
 body {
+  height: 100%;
+  width: 1170px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #CCC;
   /* background by Atle Mo and Lea Verou */
   /* http://lea.verou.me/css3patterns/#carbon-fibre */
   background:
@@ -71,17 +71,6 @@ body {
     -moz-radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
     -moz-radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
 
-#botaologin{
-  cursor: pointer;
-  position: relative;
-  float: right;
-  margin-right: 10px;
-}
-
-input:-moz-placeholder,
-textarea:-moz-placeholder {
-  color: #999999;
-}
   background:
     -o-radial-gradient(black 15%, transparent 16%) 0 0,
     -o-radial-gradient(black 15%, transparent 16%) 8px 8px,
@@ -105,6 +94,17 @@ textarea:-moz-placeholder {
 }
 
 
+#botaologin{
+  cursor: pointer;
+  position: relative;
+  float: right;
+  margin-right: 10px;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  color: #999999;
+}
 
 a:visited {
   color: #D00;
@@ -116,24 +116,6 @@ a:link {
 
 /* parte importada do projeto de login com twitter-bootstrap */
 
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #f2f9fe;
-  background: -moz-radial-gradient(center, ellipse cover, #f2f9fe 0%, #d6f0fd 100%);
-/* FF3.6+ */
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #f2f9fe), color-stop(100%, #d6f0fd));
-/* Chrome,Safari4+ */
-  background: -webkit-radial-gradient(center, ellipse cover, #f2f9fe 0%, #d6f0fd 100%);
-/* Chrome10+,Safari5.1+ */
-  background: -o-radial-gradient(center, ellipse cover, #f2f9fe 0%, #d6f0fd 100%);
-/* Opera 12+ */
-  background: -ms-radial-gradient(center, ellipse cover, #f2f9fe 0%, #d6f0fd 100%);
-/* IE10+ */
-  background: radial-gradient(center, ellipse cover, #f2f9fe 0%, #d6f0fd 100%);
-/* W3C */
-}
 #login-container {
   width: 340px;
   margin: 160px auto;

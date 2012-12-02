@@ -28,9 +28,11 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
+  app.use(express.cookieParser('secretsecret'));
   app.use(express.methodOverride());
-  app.use(express.static(path.join(__dirname, 'static')));
+  app.use(express.session());
   app.use(router);
+  app.use(express.static(path.join(__dirname, 'static')));
 });
 
 app.configure('development', function(){

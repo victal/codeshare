@@ -7,9 +7,11 @@ block content
         form( method="post", action="/login" )#login-form
             h1 Hello!
             p.subheading Please Login To Your Account
+            p#user-cg
             label
                 | Username
             input(type="text", name="user", id='user-tf')
+            p#pass-cg
             label
                 | Password
             input(type="password", name="pass", id='pass-tf')
@@ -19,5 +21,5 @@ block content
                 input(type="checkbox", checked='checked')
             hr
             div.btm-links
-                a(href='#')#forgot-password Forgot Your Password?
+                //- a(href='#')#forgot-password Forgot Your Password?
                 a(href='/signup')#create-account Create An Account

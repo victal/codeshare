@@ -19,7 +19,7 @@ $(document).ready(function(){
 			if (status == 'success') window.location.href = '/sandbox';
 		},
 		error : function(e){
-            lv.showLoginError('Login Failure', 'Please check your username and/or password');
+      $('#user-cg').text('Please check your username and/or password');
 		}
 	});
 	$('#user-tf').focus();
@@ -32,7 +32,6 @@ $(document).ready(function(){
 		url: '/lost-password',
 		beforeSubmit : function(formData, jqForm, options){
 			if (ev.validateEmail($('#email-tf').val())){
-				ev.hideEmailAlert();
 				return true;
 			}	else{
 				ev.showEmailAlert("<b> Error!</b> Please enter a valid email address");

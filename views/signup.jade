@@ -3,6 +3,30 @@ extends layout
 block login
 
 block content
-
-	include account
-include modals/alert
+  #account-form-container
+    form( method="post")#account-form
+      h1
+        p#sub1.subheading Please tell us a little about yourself.
+      hr
+      fieldset
+        p#name-cg
+        label(for='name-tf') Name
+        input#name-tf.input-xlarge(type='text', name='name', value='')
+        p#email-cg
+        label(for='email-tf') Email
+        input#email-tf.input-xlarge(type='text', name='email', value='')
+        label(for='country-list') Location
+        select#country-list(name='country')
+          each item in countries
+            option(selected=item.name)= item.name
+      hr
+      p#sub2.subheading Choose your username and password
+      p#user-cg
+      label(for='user-tf') Username
+      input#user-tf.input-xlarge.disabled(type='text', name='user', value='')
+      p#pass-cg
+      label(for='pass-tf') Password
+      input#pass-tf.input-xlarge(type='password', name='pass', value='')
+      .form-actions
+        button(type='button')#cancel-btn Cancel
+        button(type='submit')#submit-btn Submit

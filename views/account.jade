@@ -1,4 +1,3 @@
-extends layout
 block content
 	// preset form values if we receive a userdata object //
 	- user = typeof(udata) != 'undefined' ? udata : {}
@@ -38,13 +37,3 @@ block content
 				.form-actions
 					button(type='button')#account-form-btn1.btn
 					button(type='submit')#account-form-btn2.btn
-
-	// display form errors in a custom modal window //
-
-	include modals/form-errors
-
-	script(src='/vendor/jquery.min.js')
-	script(src='/vendor/jquery.form.js')
-	script(src='/vendor/bootstrap-modal.js')
-	script(src='/vendor/bootstrap-transition.js')
-	script(src='/js/form-validators/accountValidator.js')

@@ -7,10 +7,7 @@ exports.login_get = function(req, res){
     title: 'Hello - Please Login To Your Account',
     scripts: ['/vendor/jquery.min.js',
               '/vendor/jquery.form.js',
-              '/vendor/bootstrap-modal.js',
               '/js/views/login.js',
-              '/vendor/bootstrap-transition.js',
-              '/js/controllers/loginController.js',
               '/js/form-validators/loginValidator.js',
               '/js/form-validators/emailValidator.js']
   });
@@ -37,11 +34,9 @@ exports.signup_get = function(req, res){
     countries: CT,
     scripts: ['/vendor/jquery.min.js',
               '/vendor/jquery.form.js',
-              '/vendor/bootstrap-modal.js',
               '/js/views/signup.js',
-              '/vendor/bootstrap-transition.js',
+              '/js/form-validators/accountValidator.js',
               '/js/controllers/signupController.js',
-              '/js/form-validators/loginValidator.js',
               '/js/form-validators/emailValidator.js']
   });
 };

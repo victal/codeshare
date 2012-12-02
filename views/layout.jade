@@ -3,6 +3,7 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    //link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     block extra_css
     -each script in scripts
       script(type='text/javascript', src= script)
@@ -10,4 +11,7 @@ html
   div.header
     span.logo CodeShare
     block extra_header_content
+    block login
+      #botaologin
+        a.button(href="/login") Login!
   block content

@@ -8,9 +8,12 @@
   "dependencies": {
     "express": "3.x",
     "jade": "*",
+    "bcrypt": ">= 0.5.x",
     "async": "*",
     "mongodb": "*",
     "socket.io": "*",
-    "share": "*"
+    "share": "*",
+    "moment" : ">=1.7.x",
+    "emailjs": ">= 0.3.x"
   }
 }

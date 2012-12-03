@@ -87,10 +87,3 @@ a {
 .options > button {
   float: right;
 }
-
-#last-save{
-  float: right;
-  font-size: 16pt;
-  font-weight: bold;
-  margin: 10px 5px 10px 5px;
-}

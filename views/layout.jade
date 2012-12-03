@@ -10,8 +10,14 @@ html
   body
   div.header
     span.logo CodeShare
-    block extra_header_content
     block login
-      #botaologin
-        a.button(href="/login") Login!
+      if(user)
+        span#logged.header-contents
+          | Logged as #{user.user}
+          button#logout
+            a.button(href="/logout") Logout
+      else
+        #botaologin.header-contents
+          a.button(href="/login") Login!
+    block extra_header_content
   block content

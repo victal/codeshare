@@ -56,7 +56,7 @@ var file_types = {
 exports.home_view = function(req, res){
   res.render('index', {
     title: 'Codeshare',
-    user: req.session.user
+    user: req.session.user,
     scripts: []
   });
 };
@@ -80,7 +80,9 @@ exports.save = function(req,res){
               console.log(err);
             }else{
               var date = new Date();
-              res.send("Saved at "+date.getHours()+":"+date.getMinutes());
+              var minute = date.getMinutes();
+              var min = minute < 10 ? '0' : '';
+              res.send("Saved at "+date.getHours()+":"+min+minute);
             }
           });
         }
@@ -97,7 +99,9 @@ exports.save = function(req,res){
               console.log(err);
             }else{
               var date = new Date();
-              res.send("Saved at "+date.getHours()+":"+date.getMinutes());
+              var minute = date.getMinutes();
+              var min = minute < 10 ? '0' : '';
+              res.send("Saved at "+date.getHours()+":"+min+minute);
             }
           });
         }
@@ -115,7 +119,7 @@ exports.sandbox = function(req,res){
       type = item.type;
     }
     res.render('sandbox', {
-      user: req.session.user;
+      user: req.session.user,
       chat_url: req.protocol + '://' + req.headers.host + '/chat',
       title: 'Sandbox',
       text: text,

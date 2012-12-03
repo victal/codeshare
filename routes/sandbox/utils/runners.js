@@ -22,7 +22,7 @@ function run_c(filename,callback){
       callback(error,stdout,stderr);
       return;
     }
-    exec('./'+exec_file,callback);
+    exec('./'+exec_file+ ' < ' + filename+'.stdin',callback);
   });
 }
 
@@ -40,7 +40,7 @@ function run_cpp(filename,callback){
       callback(error,stdout,stderr);
       return;
     }
-    exec('./'+exec_file,callback);
+    exec('./'+exec_file + ' < ' + filename+'.stdin',callback);
   });
 }
 

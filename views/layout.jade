@@ -12,10 +12,10 @@ html
     span.logo CodeShare
     block login
       if(user)
+        #botaologout.header-contents
+          a.button(href="/logout") Logout
         span#logged.header-contents
           | Logged as #{user.user}
-          button#logout
-            a.button(href="/logout") Logout
       else
         #botaologin.header-contents
           a.button(href="/login") Login!

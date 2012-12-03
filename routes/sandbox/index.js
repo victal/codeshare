@@ -20,6 +20,8 @@ db.open(function(err,db){
   }
 });
 
+var open_docs = {};
+
 function getfromdb(id,callback){
   db.collection('codepads', {safe:true}, function(err,collection){
     if(err){
@@ -118,14 +120,31 @@ exports.sandbox = function(req,res){
       text = item.text;
       type = item.type;
     }
+    if(req.session.user){
+      if(open_docs[req.params.id] === undefined){
+        open_docs[req.params.id] = [req.session.user];
+      }
+      else{
+        var i = 0;
+        for(j = 0; j < open_docs[req.params.id].length; j++){
+          if(open_docs[req.params.id][j] === req.session.user){
+            i = 1;
+          }
+        }
+        if(!i){
+          open_docs[req.params.id].push(req.session.user);
+        }
+      }
+      console.log(open_docs[req.params.id]);
+    }
     res.render('sandbox', {
-      user: req.session.user,
       chat_url: req.protocol + '://' + req.headers.host + '/chat',
       title: 'Sandbox',
       text: text,
       type: type,
       id: req.params.id,
       types: file_types,
+      user: req.session.user,
       scripts: ['/js/jquery.js',
                 '/socket.io/socket.io.js',
                 '/channel/bcsocket.js',
@@ -159,11 +178,13 @@ exports.run = function(req,res){
         }
         else{
           fs.open(filename,'w',function(err,fd){
+            console.log(err);
             if(err){
               callback(err,null);
               return;
             }
             fs.write(fd,req.param('script'),0,req.param('script').length,0,function(err,written,buffer){
+              console.log(err);
               if(err){
                 callback(err,null);
               }
@@ -210,7 +231,7 @@ exports.run = function(req,res){
       else{
         var exec_func = runners.get(req.param('type'));
         exec_func(filename, function(error,stdout,stderr){
-          var content = "";
+          var content = "No output";
           var source = "stdout";
           if(stderr){
             content = stderr;

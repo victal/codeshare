@@ -163,6 +163,7 @@ exports.sandbox = function(req,res){
   var text = '';
   var type = '';
   getfromdb(req.params.id,function(item){
+    console.log(item);
     if(item !== null){
       text = item.text;
       type = item.type;

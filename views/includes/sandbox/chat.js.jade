@@ -1,5 +1,9 @@
 script(type='text/javascript')
   $(document).ready(function(){
+    if($('#name').val()){
+      $('#message').removeAttr('readonly');
+      $('#message').attr('placeholder','Type your message here');
+    }
     $('#name').focusout(function(){
       if($('#name').val()){
         $('#message').removeAttr('readonly');

@@ -136,6 +136,9 @@ function get_doc_type(doc,callback){
 
 
 exports.profile = function(req,res){
+  if(req.session.user == undefined){
+    res.redirect('/');
+  }
   var user_id = req.param('id');
   //console.log(user_id);
   AM.accounts.findOne({_id:AM.getObjectId(user_id)},function(err,obj){

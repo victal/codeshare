@@ -13,8 +13,16 @@ script(type='text/javascript')
         console.log(error);
       } else {
         doc.attach_ace(editor);
+        var txt = "#{text}";
+        if(txt !== ""){
+          if(doc.snapshot != ""){
+            doc.del(0,doc.snapshot.length);
+          }
+          doc.insert(0,txt);
+        }
       }
     });
+
     // Run code
     $('#exec-button').click(function(event){
       $.post(

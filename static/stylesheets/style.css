@@ -45,15 +45,37 @@ html {
   vertical-align: middle;
 }
 
+
 .header-contents{
   float:right;
   font-size: 16pt;
-  font-weight: bold;
   margin: 10px 5px 10px 5px;
-
+  padding-right: 5px;
 }
+
+.header-contents > a{
+  color: #CCC;
+  text-decoration:none;
+}
+
+#logged > a{
+  font-style: italic;
+}
+
+.header-contents > a:visited{
+  color: #CCC;
+  text-decoration:none;
+}
+
 .logo {
   margin-left: 10px;
+}
+
+.logo > a{
+  text-decoration:none;
+}
+.logo > a:visited{
+  color:#CCC;
 }
 
 body {

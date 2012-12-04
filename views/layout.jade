@@ -14,12 +14,12 @@ html
     block login
       if(user)
         #botaologout.header-contents
-          a.button(href="/logout") Logout
+          a(href="/logout") Logout
         span#logged.header-contents
           | Logged as &nbsp;
           a(href="/profile/#{user._id}") #{user.user}
       else
         #botaologin.header-contents
-          a.button(href="/login") Login!
+          a(href="/login") Login
     block extra_header_content
   block content

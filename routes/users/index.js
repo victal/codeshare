@@ -136,13 +136,14 @@ function get_doc_type(doc,callback){
 
 
 exports.profile = function(req,res){
-  if(req.session.user == undefined){
+    if(req.session.user == undefined || req.param('id') == undefined){
     res.redirect('/');
   }
   var user_id = req.param('id');
-  //console.log(user_id);
+  console.log(user_id);
   AM.accounts.findOne({_id:AM.getObjectId(user_id)},function(err,obj){
     var docs = obj.docs;
+   // if(obj == undefined)
     console.log(docs);
     if(docs == undefined){
       docs = [];
@@ -159,6 +160,7 @@ exports.profile = function(req,res){
         user: req.session.user,
         title: 'User Profile',
         docs: d,
+        numdocs: docs.length,
         scripts: []
       });
     });

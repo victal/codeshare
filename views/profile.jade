@@ -19,5 +19,12 @@ block content
             a(href="/sandbox/#{key}") #{key}
           span
             | Linguagem: #{val}
+      if(numdocs == 0)
+        span
+          | Nenhum código salvo até o momento.
+        br
+        br
+        a(href='/sandbox')
+          | Novo Documento
 
 

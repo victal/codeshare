@@ -21,11 +21,12 @@ app.get('/sandbox/:id',sandbox.sandbox);
 app.get('/sandbox',sandbox.new_sandbox);
 
 app.get('/login',users.login_get);
+app.get('/logout',users.logout);
 app.get('/signup',users.signup_get);
-app.get('/lost-password',users.lost_password_get);
-app.get('/reset-password',users.reset_password_get);
-app.get('/print',users.print);
-app.get('/reset',users.reset);
+app.get('/profile/:id',users.profile);
+//app.get('/lost-password',users.lost_password_get);
+//app.get('/reset-password',users.reset_password_get);
+//app.get('/reset',users.reset);
 app.get('/',sandbox.home_view);
 
 module.exports = app;

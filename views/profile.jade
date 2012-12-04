@@ -1,0 +1,23 @@
+extends layout
+
+block extra_css
+    link(rel='stylesheet', href='/stylesheets/profile.css')
+
+
+block content
+  .content
+    .profile
+      h1 #{user.name}
+      h3 Login: #{user.user}
+      h3 Email: #{user.email}
+
+    .docs
+      h1 Documentos desse usuário
+      each val,key in docs
+        .doc
+          h3
+            a(href="/sandbox/#{key}") #{key}
+          span
+            | Linguagem: #{val}
+
+

@@ -9,13 +9,15 @@ html
       script(type='text/javascript', src= script)
   body
   div.header
-    span.logo CodeShare
+    span.logo
+      a(href='/') CodeShare
     block login
       if(user)
         #botaologout.header-contents
           a.button(href="/logout") Logout
         span#logged.header-contents
-          | Logged as #{user.user}
+          | Logged as &nbsp;
+          a(href="/profile/#{user._id}") #{user.user}
       else
         #botaologin.header-contents
           a.button(href="/login") Login!

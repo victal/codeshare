@@ -1,6 +1,8 @@
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
+var async = require('async');
+var get_doc = require('../sandbox/').get_doc;
 
 exports.login_get = function(req, res){
   res.render('login', {
@@ -113,3 +115,49 @@ exports.reset_password_post = function(req, res){
       }
     })
 };
+
+exports.logout = function(req,res){
+  req.session.destroy();
+  res.redirect('/');
+}
+
+function get_doc_type(doc,callback){
+  console.log('get_doc_type');
+  get_doc(doc,function(item){
+    if(item != undefined){
+      console.log(item);
+      console.log(item.type);
+      callback(null,item.type);
+      return item.type;
+    }
+    console.log('else');
+  });
+}
+
+
+exports.profile = function(req,res){
+  var user_id = req.param('id');
+  //console.log(user_id);
+  AM.accounts.findOne({_id:AM.getObjectId(user_id)},function(err,obj){
+    var docs = obj.docs;
+    console.log(docs);
+    if(docs == undefined){
+      docs = [];
+    }
+    async.map(docs, get_doc_type, function(err,results){
+      var d = {};
+      console.log(results);
+      for(var i = 0; i< docs.length; i++){
+        var k = docs[i];
+        d[k] = results[i];
+      }
+      console.log(d);
+      res.render('profile',{
+        user: req.session.user,
+        title: 'User Profile',
+        docs: d,
+        scripts: []
+      });
+    });
+  });
+}

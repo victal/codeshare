@@ -8,6 +8,9 @@ var mongo = require('mongodb'),
     Server = mongo.Server,
     Db = mongo.Db;
 
+var accounts = require('../users/modules/account-manager').accounts;
+var AM = require('../users/modules/account-manager');
+
 
 var host = process.env.MONGO_NODE_DRIVER_HOST != null ? process.env.MONGO_NODE_DRIVER_HOST : 'localhost';
 var port = process.env.MONGO_NODE_DRIVER_PORT != null ? process.env.MONGO_NODE_DRIVER_PORT : 27017;
@@ -25,19 +28,25 @@ var open_docs = {};
 function getfromdb(id,callback){
   db.collection('codepads', {safe:true}, function(err,collection){
     if(err){
+      //console.log('past err');
       console.log(err);
     }else{
-      collection.findOne({_id:new ObjectID(id)},function(err,item){
+      //console.log('past here');
+      collection.findOne({_id:AM.getObjectId(id)},function(err,item){
         if(err){
           console.log(err);
         }else{
           callback(item);
+          return;
         }
       });
     }
   });
-  callback(null);
+  //console.log('calling back here');
 }
+
+exports.get_doc = getfromdb;
+
 
 var file_suffixes = {
   'python': '.py',
@@ -63,52 +72,90 @@ exports.home_view = function(req, res){
   });
 };
 
+function save_user_docs(doc, user,callback){
+  accounts.findOne({user:user.user},function(err, obj){
+    if(err){
+      callback(err,null);
+      return;
+    }
+    if(obj){
+      if(obj.docs){
+        var j = 0;
+        for(i = 0; i< obj.docs.length; i++){
+          if(obj.docs[i] === doc){
+            j = 1;
+          }
+          if(j == 0){
+            obj.docs.push(doc);
+          }
+        }
+      }else{
+        obj.docs = [doc];
+      }
+      accounts.update({_id:obj._id},obj,callback(null,1));
+    }
+  });
+}
 
 exports.save = function(req,res){
-  getfromdb(req.params.id,function(item){
-    if(item === null){
-      var new_item = {
-        user: req.params.user,
-        type: req.params.type,
-        text: req.params.text,
-        _id: new ObjectID(req.params.id)
-      };
-      db.collection('codepads', function(err,collection){
-        if(err){
-          console.log(err);
-        }else{
-          collection.insert(new_item,{safe:true},function(err,result){
-            if(err){
-              console.log(err);
-            }else{
-              var date = new Date();
-              var minute = date.getMinutes();
-              var min = minute < 10 ? '0' : '';
-              res.send("Saved at "+date.getHours()+":"+min+minute);
-            }
-          });
-        }
-      });
-    }else{
-      var data = {text: req.params.text, type: req.params.type};
-      db.collection('codepads', function(err,collection){
-        if(err){
-          console.log(err);
-        }else{
-          console.log('update');
-          collection.update({_id:new ObjectID(req.params.id)},data, {safe:true},function(err,result){
-            if(err){
-              console.log(err);
-            }else{
-              var date = new Date();
-              var minute = date.getMinutes();
-              var min = minute < 10 ? '0' : '';
-              res.send("Saved at "+date.getHours()+":"+min+minute);
-            }
-          });
-        }
-      });
-    }
+  if(open_docs[req.params.id] == undefined && req.session.user != undefined){
+    open_docs[req.params.id] = [req.session.user];
+    //console.log(open_docs);
+  }
+  async.map(open_docs[req.param('id')], async.apply(save_user_docs, req.param('id')), function(err,results){
+    getfromdb(req.params.id,function(item){
+      var type = req.param('type');
+      if(type == undefined){
+        type = file_types['python'];
+      }
+      else{
+        type = file_types[req.param('type')];
+      }
+      if(item === null){
+        var new_item = {
+          user: req.param('user'),
+          type: type,
+          text: req.param('text'),
+          _id: new ObjectID(req.param('id'))
+        };
+        db.collection('codepads', function(err,collection){
+          if(err){
+            //not here
+            console.log(err);
+          }else{
+            collection.insert(new_item,{safe:true},function(err,result){
+              if(err){
+                //here
+                console.log(err);
+              }else{
+                var date = new Date();
+                var minute = date.getMinutes();
+                var min = minute < 10 ? '0' : '';
+                res.send("Saved at "+date.getHours()+":"+min+minute);
+              }
+            });
+          }
+        });
+      }else{
+        var data = {text: req.param('text'), type: req.param('type')};
+        db.collection('codepads', function(err,collection){
+          if(err){
+            console.log(err);
+          }else{
+            collection.update({_id:new ObjectID(req.params.id)},data, {safe:true},function(err,result){
+              if(err){
+                console.log(err);
+              }else{
+                var date = new Date();
+                var minute = date.getMinutes();
+                var min = minute < 10 ? '0' : '';
+                res.send("Saved at "+date.getHours()+":"+min+minute);
+              }
+            });
+          }
+        });
+      }
+    });
   });
 };
 
@@ -127,15 +174,14 @@ exports.sandbox = function(req,res){
       else{
         var i = 0;
         for(j = 0; j < open_docs[req.params.id].length; j++){
-          if(open_docs[req.params.id][j] === req.session.user){
+          if(open_docs[req.params.id][j]._id === req.session.user._id){
             i = 1;
           }
         }
-        if(!i){
+        if(i == 0){
           open_docs[req.params.id].push(req.session.user);
         }
       }
-      console.log(open_docs[req.params.id]);
     }
     res.render('sandbox', {
       chat_url: req.protocol + '://' + req.headers.host + '/chat',
